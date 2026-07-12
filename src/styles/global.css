@@ -1,6 +1,6 @@
 :root {
   --bg: #060614;
-  --bg-raised: rgba(148, 130, 255, 0.05);
+  --bg-raised: rgba(9, 9, 22, 0.9);
   --border: rgba(167, 139, 250, 0.14);
   --border-strong: rgba(196, 181, 253, 0.32);
   --text: #eceef8;
@@ -58,6 +58,8 @@ a {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  /* a shadow would show through the transparent gradient fill */
+  text-shadow: none;
 }
 
 /* ---------- canvas layer ---------- */
@@ -225,6 +227,7 @@ a {
 }
 
 .section {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -232,6 +235,22 @@ a {
   padding: var(--space-section) clamp(1.25rem, 6vw, 6rem);
   max-width: 1320px;
   margin: 0 auto;
+}
+
+/* soft scrims behind the dense reading sections */
+#experience::before,
+#education::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    65% 80% at 50% 45%,
+    rgba(6, 6, 20, 0.72) 0%,
+    rgba(6, 6, 20, 0.32) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
 }
 
 .eyebrow {
@@ -244,7 +263,7 @@ a {
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  text-shadow: 0 1px 10px rgba(6, 6, 20, 0.9);
+  text-shadow: 0 1px 3px rgba(4, 4, 14, 0.95), 0 3px 18px rgba(4, 4, 14, 0.85);
 }
 
 .eyebrow::before {
@@ -284,7 +303,7 @@ h3 {
   letter-spacing: -0.01em;
   text-wrap: balance;
   font-weight: 700;
-  text-shadow: 0 1px 16px rgba(6, 6, 20, 0.85);
+  text-shadow: 0 1px 3px rgba(4, 4, 14, 0.95), 0 4px 26px rgba(4, 4, 14, 0.85);
 }
 
 h2 {
@@ -1152,6 +1171,14 @@ h2 {
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .panel {
+    background: rgba(8, 8, 20, 0.98);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

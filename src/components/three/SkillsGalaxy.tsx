@@ -48,7 +48,7 @@ function Ring({
               color={color}
               anchorX="center"
               anchorY="middle"
-              fillOpacity={0.92}
+              fillOpacity={0.7}
             >
               {word}
             </Text>

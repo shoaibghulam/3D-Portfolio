@@ -47,19 +47,32 @@ export function NeuralCore({ reducedMotion, mobile }: { reducedMotion: boolean; 
     }
 
     // Breathe on the hero, tighten while the skill galaxy owns the stage,
-    // then come back as the beacon behind the contact section.
+    // recede behind text-heavy sections, return as the contact beacon.
     const skillsProximity = Math.max(0, 1 - Math.abs(page - 4) * 1.4)
     const contactProximity = Math.max(0, 1 - Math.abs(page - 6) * 1.2)
+    // Experience (2) and Education (3) are dense reading sections — the core
+    // shrinks and cools there so it never fights the copy for attention.
+    const readingProximity = Math.max(
+      Math.max(0, 1 - Math.abs(page - 2) * 1.2),
+      Math.max(0, 1 - Math.abs(page - 3) * 1.2),
+    )
     const breathe = reducedMotion ? 0 : Math.sin(t * 0.8) * 0.02
     const target =
-      (1 - skillsProximity * 0.45 + contactProximity * 0.12) * (hovered ? 1.05 : 1) + breathe
+      (1 - skillsProximity * 0.45 - readingProximity * 0.55 + contactProximity * 0.12) *
+        (hovered ? 1.05 : 1) +
+      breathe
     scale.current = THREE.MathUtils.damp(scale.current, target, 1 / 0.4, delta)
     group.current.scale.setScalar(scale.current)
 
-    // Calm the molten heart behind the contact copy so text stays readable.
+    // Calm the molten heart behind dense copy so text stays readable.
     if (heart.current) {
       const base = hovered ? 1.15 : 0.75
-      heart.current.emissiveIntensity = base * (1 - contactProximity * 0.7)
+      heart.current.emissiveIntensity =
+        base * (1 - Math.max(contactProximity * 0.7, readingProximity * 0.65))
+    }
+    if (outer.current) {
+      const mat = outer.current.material as THREE.MeshBasicMaterial
+      mat.opacity = 0.32 * (1 - readingProximity * 0.55)
     }
   })
 

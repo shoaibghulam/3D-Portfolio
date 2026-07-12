@@ -47,8 +47,8 @@ export function Experience({
 
       {!mobile && (
         <EffectComposer>
-          <Bloom mipmapBlur intensity={0.75} luminanceThreshold={0.22} luminanceSmoothing={0.6} />
-          <Vignette eskil={false} offset={0.22} darkness={0.82} />
+          <Bloom mipmapBlur intensity={0.6} luminanceThreshold={0.35} luminanceSmoothing={0.6} />
+          <Vignette eskil={false} offset={0.22} darkness={0.85} />
         </EffectComposer>
       )}
 
